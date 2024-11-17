@@ -50,7 +50,7 @@ export class AppComponent {
             Date: startdate.toDateString(),
             Name: schedule.user.summary,
             Week: getWeekNumber(startdate),
-            Payment: this.payment,
+            Payment: Number(this.payment),
             Month: startdate.toLocaleString('default', { month: 'long' })
           });
           startdate = new Date(startdate.setDate(startdate.getDate() + 1));
