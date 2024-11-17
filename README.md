@@ -1,27 +1,66 @@
-# UserScheduleApp
+# PD Schedule Manager
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
+A professional development schedule management application built with Angular that helps track and manage schedules on PagerDuty with powerful Excel export capabilities.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Schedule management with date range filtering
+- Excel export functionality with detailed and summary views
+- Token-based authentication
+- Interactive date selection
+- Loading state management
 
-## Code scaffolding
+## Excel Export Feature
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The application provides a comprehensive Excel export functionality that generates a workbook with two worksheets:
 
-## Build
+### 1. Detailed Worksheet
+Contains day-by-day schedule information including:
+- Date
+- Name
+- Week number
+- Daily payment
+- Month
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### 2. Summary Worksheet
+Provides a financial overview with:
+- Names listed vertically
+- Months listed horizontally
+- Payment totals for each person per month
+- Row totals showing total payment per person
+- Column totals showing total payment per month
+- Grand total in the bottom right corner
 
-## Running unit tests
+## How to Use
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Enter your authentication token
+2. Select the date range using the from and to date fields
+3. (Optional) Enter a specific ID if needed
+4. Click "Get Schedules" to fetch the schedule data
+5. Once the data is loaded, click "Export to Excel" to generate the Excel file
+6. The Excel file will be automatically downloaded as "PD_schedules.xlsx"
 
-## Running end-to-end tests
+## Data Structure
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Schedule Entry
+Each schedule entry contains:
+- Start date/time
+- End date/time
+- User information
+- Payment information (default: 35.71 per day)
 
-## Further help
+### Excel Output
+The generated Excel file provides two views:
+1. Detailed daily breakdown of schedules
+2. Monthly summary of payments by person
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Development
+
+This project was generated with Angular CLI. To run the development server:
+
+```bash
+npm install
+ng serve
+```
+
+Navigate to `http://localhost:4200/` to access the application.
