@@ -5,7 +5,7 @@
     <label for="token">Token:</label>
     <input type="password" id="token" [(ngModel)]="token" placeholder="Enter Token" />
   </div>
-  
+
   <div>
     <label for="id">Schedule ID:</label>
     <input type="text" id="id" [(ngModel)]="id" placeholder="Enter Schedule ID" />
@@ -21,17 +21,21 @@
     <input type="datetime-local" id="toDate" [(ngModel)]="toDate" />
   </div>
   <div>
-    <label for="payment">Payment:</label>
-    <input type="text" id="payment" [(ngModel)]="payment" placeholder="Enter Payment Amount" />
+    <label for="payment">Support Type:</label>
+    <select [(ngModel)]="payment" placeholder="Select Payment Amount">
+      <option value="35.71">Primary</option>
+      <option value="17.86">Seconday</option>
+
+    </select>
   </div>
-  
- 
+
+
 
   <button (click)="getSchedules()">Get Schedules</button>
 
   <div *ngIf="isLoading">Loading...</div>
 
-   <table *ngIf="this.schedules">
+  <table *ngIf="this.schedules">
     <thead>
       <tr>
         <th>Start Time</th>
@@ -46,7 +50,7 @@
         <td>{{ schedule.user.summary }}</td>
       </tr>
     </tbody>
-  </table> 
+  </table>
 
   <button *ngIf="this.schedules" (click)="exportToExcel()">Export to Excel</button>
 </div>
