@@ -7,8 +7,13 @@
   </div>
 
   <div>
-    <label for="id">Schedule ID:</label>
-    <input type="text" id="id" [(ngModel)]="id" placeholder="Enter Schedule ID" />
+    <label for="primaryId">Primary Schedule ID:</label>
+    <input type="text" id="primaryId" [(ngModel)]="primaryId" placeholder="Enter Primary Schedule ID" />
+  </div>
+
+  <div>
+    <label for="secondaryId">Secondary Schedule ID:</label>
+    <input type="text" id="secondaryId" [(ngModel)]="secondaryId" placeholder="Enter Secondary Schedule ID" />
   </div>
 
   <div>
@@ -20,37 +25,50 @@
     <label for="toDate">To Date:</label>
     <input type="datetime-local" id="toDate" [(ngModel)]="toDate" />
   </div>
-  <div>
-    <label for="payment">Support Type:</label>
-    <select [(ngModel)]="payment" placeholder="Select Payment Amount">
-      <option value="35.71">Primary</option>
-      <option value="17.86">Seconday</option>
-
-    </select>
-  </div>
-
-
 
   <button (click)="getSchedules()">Get Schedules</button>
 
   <div *ngIf="isLoading">Loading...</div>
 
-  <table *ngIf="this.schedules">
-    <thead>
-      <tr>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>User</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let schedule of schedules">
-        <td>{{ schedule.start }}</td>
-        <td>{{ schedule.end }}</td>
-        <td>{{ schedule.user.summary }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngIf="primarySchedules">
+    <h3>Primary Schedule</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>User</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let schedule of primarySchedules">
+          <td>{{ schedule.start }}</td>
+          <td>{{ schedule.end }}</td>
+          <td>{{ schedule.user.summary }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <button *ngIf="this.schedules" (click)="exportToExcel()">Export to Excel</button>
+  <div *ngIf="secondarySchedules">
+    <h3>Secondary Schedule</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>User</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let schedule of secondarySchedules">
+          <td>{{ schedule.start }}</td>
+          <td>{{ schedule.end }}</td>
+          <td>{{ schedule.user.summary }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button *ngIf="primarySchedules || secondarySchedules" (click)="exportToExcel()">Export to Excel</button>
 </div>
