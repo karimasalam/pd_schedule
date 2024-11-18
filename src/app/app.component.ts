@@ -20,8 +20,8 @@ interface ScheduleResponse {
 })
 export class AppComponent {
   token: string = '';
-  fromDate: string = '2024-07-01T10:00';
-  toDate: string = '2024-07-30T10:00';
+  fromDate: Date;
+  toDate: Date;
   primaryId: string = '';
   secondaryId: string = '';
   primarySchedules?: RenderedScheduleEntry[];
@@ -30,13 +30,26 @@ export class AppComponent {
   primaryPayment: number = 35.71;
   secondaryPayment: number = 17.86;
 
-  constructor(private scheduleService: ScheduleService) { }
+  constructor(private scheduleService: ScheduleService) {
+    // Set default dates to July 1st and July 30th at 10:00 AM
+    this.fromDate = new Date(2024, 6, 1, 10, 0); // July 1st, 2024 at 10:00 AM
+    this.toDate = new Date(2024, 6, 30, 10, 0);  // July 30th, 2024 at 10:00 AM
+  }
 
   getSchedules(): void {
+    // Check if all required fields are filled
+    if (!this.token || !this.primaryId || !this.secondaryId || !this.fromDate || !this.toDate) {
+      return;
+    }
+
     this.isLoading = true;
     
-    const primaryRequest = this.scheduleService.getSchedules(this.token, this.fromDate, this.toDate, this.primaryId);
-    const secondaryRequest = this.scheduleService.getSchedules(this.token, this.fromDate, this.toDate, this.secondaryId);
+    // Convert dates to ISO string format for the API
+    const fromDateString = this.fromDate.toISOString();
+    const toDateString = this.toDate.toISOString();
+    
+    const primaryRequest = this.scheduleService.getSchedules(this.token, fromDateString, toDateString, this.primaryId);
+    const secondaryRequest = this.scheduleService.getSchedules(this.token, fromDateString, toDateString, this.secondaryId);
 
     forkJoin([primaryRequest, secondaryRequest]).subscribe({
       next: ([primaryData, secondaryData]: [ScheduleResponse, ScheduleResponse]) => {
@@ -73,6 +86,58 @@ export class AppComponent {
       // Create and save workbook
       const wb = createExcelWorkbook(detailedData, summarySheets);
       XLSX.writeFile(wb, `PD_schedules.xlsx`);
+    }
+  }
+
+  updateFromTime(timeString: string): void {
+    if (this.fromDate) {
+      const [hours, minutes] = timeString.split(':').map(Number);
+      this.fromDate = new Date(
+        this.fromDate.getFullYear(),
+        this.fromDate.getMonth(),
+        this.fromDate.getDate(),
+        hours,
+        minutes
+      );
+    }
+  }
+
+  updateToTime(timeString: string): void {
+    if (this.toDate) {
+      const [hours, minutes] = timeString.split(':').map(Number);
+      this.toDate = new Date(
+        this.toDate.getFullYear(),
+        this.toDate.getMonth(),
+        this.toDate.getDate(),
+        hours,
+        minutes
+      );
+    }
+  }
+
+  onFromDateChange(event: any): void {
+    if (this.fromDate) {
+      const newDate = event.value;
+      this.fromDate = new Date(
+        newDate.getFullYear(),
+        newDate.getMonth(),
+        newDate.getDate(),
+        10, // Force 10:00 AM
+        0
+      );
+    }
+  }
+
+  onToDateChange(event: any): void {
+    if (this.toDate) {
+      const newDate = event.value;
+      this.toDate = new Date(
+        newDate.getFullYear(),
+        newDate.getMonth(),
+        newDate.getDate(),
+        10, // Force 10:00 AM
+        0
+      );
     }
   }
 }
