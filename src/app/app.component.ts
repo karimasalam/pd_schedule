@@ -3,7 +3,14 @@ import { ScheduleService } from './schedule.service';
 import * as XLSX from 'xlsx';
 import { RenderedScheduleEntry } from './interfaces/schedule';
 import { processDailyAssignments, generateSummaryData, createSummarySheets, createExcelWorkbook } from './utilities';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+
+interface Schedule {
+  id: string;
+  name: string;
+  [key: string]: any;
+}
 
 interface ScheduleResponse {
   schedule: {
@@ -29,11 +36,34 @@ export class AppComponent {
   isLoading: boolean = false;
   primaryPayment: number = 35.71;
   secondaryPayment: number = 17.86;
+  scheduleList: Schedule[] = [];
+  filteredSchedules: Schedule[] = [];
+  private searchSubject = new Subject<string>();
 
   constructor(private scheduleService: ScheduleService) {
     // Set default dates to July 1st and July 30th at 10:00 AM
     this.fromDate = new Date(2024, 6, 1, 10, 0); // July 1st, 2024 at 10:00 AM
     this.toDate = new Date(2024, 6, 30, 10, 0);  // July 30th, 2024 at 10:00 AM
+
+    // Setup search with debounce
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(query => {
+        this.isLoading = true;
+        return this.scheduleService.listschedules(this.token, query, 100);
+      })
+    ).subscribe({
+      next: (response: { schedules: Schedule[] }) => {
+        this.scheduleList = response.schedules;
+        this.filteredSchedules = this.scheduleList;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading schedules:', error);
+        this.isLoading = false;
+      }
+    });
   }
 
   getSchedules(): void {
@@ -62,6 +92,24 @@ export class AppComponent {
         this.isLoading = false;
       }
     });
+  }
+
+  loadSchedules(): void {
+    if (this.token) {
+      this.searchSubject.next('');
+    }
+  }
+
+  filterSchedules(searchText: string): void {
+    if (this.token) {
+      this.searchSubject.next(searchText);
+    }
+  }
+
+  displayFn = (scheduleId: string | null): string => {
+    if (!scheduleId) return '';
+    const schedule = this.scheduleList.find(s => s.id === scheduleId);
+    return schedule ? `${schedule.name} (${schedule.id})` : scheduleId;
   }
 
   exportToExcel(): void {

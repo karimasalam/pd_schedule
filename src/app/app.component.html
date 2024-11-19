@@ -9,19 +9,41 @@
   <form class="form-container">
     <mat-form-field appearance="outline">
       <mat-label>Token</mat-label>
-      <input matInput type="password" [(ngModel)]="token" name="token" placeholder="Enter Token" required>
+      <input matInput type="password" [(ngModel)]="token" name="token" placeholder="Enter Token" (ngModelChange)="loadSchedules()" required>
       <mat-error>Token is required</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Primary Schedule ID</mat-label>
-      <input matInput [(ngModel)]="primaryId" name="primaryId" placeholder="Enter Primary Schedule ID" required>
+      <input matInput type="text" placeholder="Search schedules" [matAutocomplete]="primaryAuto" (input)="filterSchedules($any($event.target).value)">
+      <mat-autocomplete #primaryAuto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngIf="isLoading" class="is-loading">
+          <mat-spinner diameter="20"></mat-spinner>
+          Loading...
+        </mat-option>
+        <ng-container *ngIf="!isLoading">
+          <mat-option *ngFor="let schedule of filteredSchedules" [value]="schedule.id" (onSelectionChange)="primaryId = schedule.id">
+            {{schedule.name}} ({{schedule.id}})
+          </mat-option>
+        </ng-container>
+      </mat-autocomplete>
       <mat-error>Primary Schedule ID is required</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Secondary Schedule ID</mat-label>
-      <input matInput [(ngModel)]="secondaryId" name="secondaryId" placeholder="Enter Secondary Schedule ID" required>
+      <input matInput type="text" placeholder="Search schedules" [matAutocomplete]="secondaryAuto" (input)="filterSchedules($any($event.target).value)">
+      <mat-autocomplete #secondaryAuto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngIf="isLoading" class="is-loading">
+          <mat-spinner diameter="20"></mat-spinner>
+          Loading...
+        </mat-option>
+        <ng-container *ngIf="!isLoading">
+          <mat-option *ngFor="let schedule of filteredSchedules" [value]="schedule.id" (onSelectionChange)="secondaryId = schedule.id">
+            {{schedule.name}} ({{schedule.id}})
+          </mat-option>
+        </ng-container>
+      </mat-autocomplete>
       <mat-error>Secondary Schedule ID is required</mat-error>
     </mat-form-field>
 

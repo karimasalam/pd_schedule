@@ -23,4 +23,12 @@ export class ScheduleService {
     
     return this.http.get(this.apiUrl + id, { headers, params });
   }
+  listschedules(token: string , query: string, limit: number): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Token token=${token}`);
+    const params = {
+      query: query,
+      limit: limit
+    };
+    return this.http.get(this.apiUrl, { headers, params });
+  }
 }
