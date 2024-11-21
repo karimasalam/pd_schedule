@@ -1,0 +1,67 @@
+<form class="form-container">
+  <mat-form-field appearance="outline">
+    <mat-label>Token</mat-label>
+    <input matInput type="password" [(ngModel)]="token" name="token" placeholder="Enter Token"  required>
+    <mat-error>Token is required</mat-error>
+  </mat-form-field>
+
+  <div class="date-row">
+    <div class="date-time-field">
+      <mat-form-field appearance="outline">
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="fromPicker" [(ngModel)]="fromDate" (dateChange)="onDateChange()" name="fromDate" readonly required>
+        <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromPicker></mat-datepicker>
+        <mat-error>From Date is required</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="time-field">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" [ngModel]="fromDate | date:'HH:mm'" (ngModelChange)="updateFromTime($event)" name="fromTime" required>
+        <mat-error>Time is required</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="date-time-field">
+      <mat-form-field appearance="outline">
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="toPicker" [(ngModel)]="toDate" (dateChange)="onDateChange()" name="toDate" readonly required>
+        <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker></mat-datepicker>
+        <mat-error>To Date is required</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="time-field">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" [ngModel]="toDate | date:'HH:mm'" (ngModelChange)="updateToTime($event)" name="toTime" required>
+        <mat-error>Time is required</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <button mat-raised-button color="primary" (click)="loadScheduleData()">Get Schedules</button>
+
+</form>
+
+<div class="teams-container" *ngIf="teamSchedules.length > 0">
+  <h3>Configured Teams</h3>
+  <mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let team of teamSchedules">
+      <div matListItemTitle>{{team.name}}</div>
+      <div matListItemLine>Primary Schedule ID: {{team.primaryId}}</div>
+      <div matListItemLine>Secondary Schedule ID: {{team.secondaryId}}</div>
+      <div matListItemLine *ngIf="team.primaryEntries && team.secondaryEntries" class="status-text">
+        <mat-icon color="primary">check_circle</mat-icon> 
+        <span>Data loaded</span>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</div>
+
+<div class="export-container" *ngIf="teamSchedules.length > 0">
+  <button mat-raised-button color="primary" color="accent" (click)="exportToExcel()" [disabled]="(!dataloaded) || (isLoading)">
+    <mat-icon>download</mat-icon>
+    <span>Export Team Schedules</span>
+  </button>
+</div>
+
+<div class="loading-container" *ngIf="isLoading">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>

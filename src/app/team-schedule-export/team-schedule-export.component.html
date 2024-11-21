@@ -1,0 +1,158 @@
+<form class="form-container">
+  <mat-form-field appearance="outline">
+    <mat-label>Token</mat-label>
+    <input matInput type="password" [(ngModel)]="token" name="token" placeholder="Enter Token" (ngModelChange)="loadSchedules()" required>
+    <mat-error>Token is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Primary Schedule ID</mat-label>
+    <input matInput type="text" placeholder="Search schedules" [matAutocomplete]="primaryAuto" (input)="filterSchedules($any($event.target).value)">
+    <mat-autocomplete #primaryAuto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngIf="isLoading" class="is-loading">
+        <mat-spinner diameter="20"></mat-spinner>
+        Loading...
+      </mat-option>
+      <ng-container *ngIf="!isLoading">
+        <mat-option *ngFor="let schedule of filteredSchedules" [value]="schedule.id" (onSelectionChange)="primaryId = schedule.id">
+          {{schedule.name}} ({{schedule.id}})
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+    <mat-error>Primary Schedule ID is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Secondary Schedule ID</mat-label>
+    <input matInput type="text" placeholder="Search schedules" [matAutocomplete]="secondaryAuto" (input)="filterSchedules($any($event.target).value)">
+    <mat-autocomplete #secondaryAuto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngIf="isLoading" class="is-loading">
+        <mat-spinner diameter="20"></mat-spinner>
+        Loading...
+      </mat-option>
+      <ng-container *ngIf="!isLoading">
+        <mat-option *ngFor="let schedule of filteredSchedules" [value]="schedule.id" (onSelectionChange)="secondaryId = schedule.id">
+          {{schedule.name}} ({{schedule.id}})
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+    <mat-error>Secondary Schedule ID is required</mat-error>
+  </mat-form-field>
+
+  <div class="date-row">
+    <div class="date-time-field">
+      <mat-form-field appearance="outline">
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="fromPicker" [(ngModel)]="fromDate" (dateChange)="onFromDateChange($event)" name="fromDate" readonly required>
+        <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromPicker></mat-datepicker>
+        <mat-error>From Date is required</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="time-field">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" [ngModel]="fromDate | date:'HH:mm'" (ngModelChange)="updateFromTime($event)" name="fromTime" required>
+        <mat-error>Time is required</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="date-time-field">
+      <mat-form-field appearance="outline">
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="toPicker" [(ngModel)]="toDate" (dateChange)="onToDateChange($event)" name="toDate" readonly required>
+        <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker></mat-datepicker>
+        <mat-error>To Date is required</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="time-field">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" [ngModel]="toDate | date:'HH:mm'" (ngModelChange)="updateToTime($event)" name="toTime" required>
+        <mat-error>Time is required</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="getSchedules()">Get Schedules</button>
+</form>
+
+<div class="loading-spinner" *ngIf="isLoading">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>
+
+<ng-container *ngIf="primarySchedules || secondarySchedules">
+  <div class="table-header">
+    <h2>Schedule Results</h2>
+    <div class="export-container">
+      <button mat-raised-button color="primary" color="accent" (click)="exportToExcel()">
+        <mat-icon>download</mat-icon>
+        <span>Export to Excel</span>
+      </button>
+    </div>
+    <!-- <button mat-raised-button color="accent" (click)="exportToExcel()">Export to Excel</button> -->
+  </div>
+
+  <div *ngIf="primarySchedules" class="schedule-table">
+    <h3 class="mat-h3">Primary Schedule</h3>
+    <table mat-table [dataSource]="primarySchedules" class="mat-elevation-z2 themed-table">
+      <ng-container matColumnDef="start">
+        <th mat-header-cell *matHeaderCellDef>Start Time</th>
+        <td mat-cell *matCellDef="let schedule">
+          <div class="datetime-cell">
+            <span class="date">{{ schedule.start | date:'MMM d, y' }}</span>
+            <span class="time">{{ schedule.start | date:'h:mm a' }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="end">
+        <th mat-header-cell *matHeaderCellDef>End Time</th>
+        <td mat-cell *matCellDef="let schedule">
+          <div class="datetime-cell">
+            <span class="date">{{ schedule.end | date:'MMM d, y' }}</span>
+            <span class="time">{{ schedule.end | date:'h:mm a' }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef>User On-call</th>
+        <td mat-cell *matCellDef="let schedule">{{ schedule.user.summary }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['start', 'end', 'user']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['start', 'end', 'user'];"></tr>
+    </table>
+  </div>
+
+  <div *ngIf="secondarySchedules" class="schedule-table">
+    <h3 class="mat-h3">Secondary Schedule</h3>
+    <table mat-table [dataSource]="secondarySchedules" class="mat-elevation-z2 themed-table">
+      <ng-container matColumnDef="start">
+        <th mat-header-cell *matHeaderCellDef>Start Time</th>
+        <td mat-cell *matCellDef="let schedule">
+          <div class="datetime-cell">
+            <span class="date">{{ schedule.start | date:'MMM d, y' }}</span>
+            <span class="time">{{ schedule.start | date:'h:mm a' }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="end">
+        <th mat-header-cell *matHeaderCellDef>End Time</th>
+        <td mat-cell *matCellDef="let schedule">
+          <div class="datetime-cell">
+            <span class="date">{{ schedule.end | date:'MMM d, y' }}</span>
+            <span class="time">{{ schedule.end | date:'h:mm a' }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef>User On-call</th>
+        <td mat-cell *matCellDef="let schedule">{{ schedule.user.summary }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['start', 'end', 'user']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['start', 'end', 'user'];"></tr>
+    </table>
+  </div>
+</ng-container>

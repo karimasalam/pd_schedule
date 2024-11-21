@@ -1,5 +1,5 @@
 import * as XLSX from 'xlsx';
-import { RenderedScheduleEntry } from '../interfaces/schedule';
+import { RenderedScheduleEntry } from '../interfaces/pagerduty-schedule';
 
 export interface DailyAssignment {
   Date: string;
@@ -12,19 +12,19 @@ export interface DailyAssignment {
 }
 
 export function getWeekNumber(date: Date): number {
-    // Copy the date object
-    const targetDate = new Date(date.valueOf());
-  
-    // Set to the nearest Thursday (current date + 4 - current day number)
-    targetDate.setDate(targetDate.getDate() + 4 - (targetDate.getDay() || 7));
-  
-    // Get the first day of the year
-    const yearStart = new Date(targetDate.getFullYear(), 0, 1);
-  
-    // Calculate the number of days between the current date and the first day of the year
-    const weekNumber = Math.ceil(((targetDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
-  
-    return weekNumber;
+  // Copy the date object
+  const targetDate = new Date(date.valueOf());
+
+  // Set to the nearest Thursday (current date + 4 - current day number)
+  targetDate.setDate(targetDate.getDate() + 4 - (targetDate.getDay() || 7));
+
+  // Get the first day of the year
+  const yearStart = new Date(targetDate.getFullYear(), 0, 1);
+
+  // Calculate the number of days between the current date and the first day of the year
+  const weekNumber = Math.ceil(((targetDate.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+
+  return weekNumber;
 }
 
 export function processDailyAssignments(
@@ -142,9 +142,11 @@ export function generateSummaryData(detailedData: DailyAssignment[]) {
 export function createSummarySheets(summaryData: ReturnType<typeof generateSummaryData>) {
   const { primarySummaryData, secondarySummaryData, sortedMonths, primaryNames, secondaryNames } = summaryData;
 
+  // Create combined summary sheet
+  const combinedSummarySheet: (string | number)[][] = [];
+
   // Create primary summary table
-  const primarySummarySheet: (string | number)[][] = [];
-  primarySummarySheet.push(['Primary Support', ...sortedMonths, 'Total']);
+  combinedSummarySheet.push(['Primary Support', ...sortedMonths, 'Total']);
 
   const primaryMonthTotals = new Array(sortedMonths.length).fill(0);
   let primaryGrandTotal = 0;
@@ -162,16 +164,17 @@ export function createSummarySheets(summaryData: ReturnType<typeof generateSumma
     
     row.push(rowTotal);
     primaryGrandTotal += rowTotal;
-    primarySummarySheet.push(row);
+    combinedSummarySheet.push(row);
   });
 
-  primarySummarySheet.push(['Total', ...primaryMonthTotals, primaryGrandTotal]);
-  primarySummarySheet.push([]);
-  primarySummarySheet.push([]);
+  combinedSummarySheet.push(['Total', ...primaryMonthTotals, primaryGrandTotal]);
+
+  // Add spacing between tables
+  combinedSummarySheet.push([]);
+  combinedSummarySheet.push([]);
 
   // Create secondary summary table
-  const secondarySummarySheet: (string | number)[][] = [];
-  secondarySummarySheet.push(['Secondary Support', ...sortedMonths, 'Total']);
+  combinedSummarySheet.push(['Secondary Support', ...sortedMonths, 'Total']);
 
   const secondaryMonthTotals = new Array(sortedMonths.length).fill(0);
   let secondaryGrandTotal = 0;
@@ -189,24 +192,28 @@ export function createSummarySheets(summaryData: ReturnType<typeof generateSumma
     
     row.push(rowTotal);
     secondaryGrandTotal += rowTotal;
-    secondarySummarySheet.push(row);
+    combinedSummarySheet.push(row);
   });
 
-  secondarySummarySheet.push(['Total', ...secondaryMonthTotals, secondaryGrandTotal]);
+  combinedSummarySheet.push(['Total', ...secondaryMonthTotals, secondaryGrandTotal]);
 
-  return [...primarySummarySheet, ...secondarySummarySheet];
+  return {
+    'Summary': combinedSummarySheet
+  };
 }
 
-export function createExcelWorkbook(detailedData: DailyAssignment[], summaryData: (string | number)[][]) {
+export function createExcelWorkbook(detailedData: DailyAssignment[], summaryData: { [key: string]: (string | number)[][] }) {
   const wb: XLSX.WorkBook = XLSX.utils.book_new();
   
   // Add detailed sheet
   const detailedWs: XLSX.WorkSheet = XLSX.utils.json_to_sheet(detailedData);
   XLSX.utils.book_append_sheet(wb, detailedWs, 'Detailed');
 
-  // Add summary sheet
-  const summaryWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(summaryData);
-  XLSX.utils.book_append_sheet(wb, summaryWs, 'Summary');
+  // Add summary sheets
+  Object.keys(summaryData).forEach(sheetName => {
+    const summaryWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(summaryData[sheetName]);
+    XLSX.utils.book_append_sheet(wb, summaryWs, sheetName);
+  });
 
   return wb;
 }

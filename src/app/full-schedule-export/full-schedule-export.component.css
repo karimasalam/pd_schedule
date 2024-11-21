@@ -1,0 +1,716 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.schedule-export-container {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 24px;
+  overflow: auto;
+}
+
+/* Tab styles */
+.mat-tab-group {
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep .mat-tab-header {
+  background-color: #f5f5f5;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 24px;
+}
+
+::ng-deep .mat-tab-label {
+  opacity: 1 !important;
+  padding: 0 24px;
+  height: 48px;
+  min-width: 160px;
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+::ng-deep .mat-tab-label-active {
+  background-color: #1976d2;
+  color: white;
+}
+
+::ng-deep .mat-tab-label:hover {
+  background-color: rgba(25, 118, 210, 0.1);
+}
+
+::ng-deep .mat-tab-label-active:hover {
+  background-color: #1565c0;
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: #1976d2 !important;
+  height: 3px !important;
+}
+
+/* Form styles */
+.form-container {
+  width: 100%;
+  padding: 24px 0;
+  background-color: transparent;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.form-field {
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.form-field.full-width {
+  flex: 1 1 100%;
+}
+
+:host ::ng-deep .mat-mdc-form-field {
+  width: 100%;
+}
+
+:host ::ng-deep .mat-mdc-text-field-wrapper {
+  height: 56px !important;
+}
+
+:host ::ng-deep .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex {
+  height: 56px;
+  align-items: center !important;
+}
+
+:host ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+:host ::ng-deep .mat-mdc-form-field-bottom-align {
+  display: none;
+}
+
+::ng-deep .mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+::ng-deep .mat-form-field-infix {
+  padding: 0.5em 0;
+  border-top: 0.5em solid transparent;
+}
+
+::ng-deep .mat-form-field-underline {
+  bottom: 0;
+}
+
+/* Button styles */
+.button-container {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+  justify-content: flex-start;
+}
+
+button {
+  min-width: 120px;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .schedule-export-container {
+    padding: 16px;
+  }
+
+  .form-container {
+    padding: 16px;
+  }
+
+  .form-row {
+    gap: 12px;
+  }
+
+  ::ng-deep .mat-tab-label {
+    min-width: 120px;
+    padding: 0 16px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .schedule-export-container {
+    padding: 12px;
+  }
+
+  .form-container {
+    padding: 12px;
+  }
+
+  .button-container {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  ::ng-deep .mat-tab-label {
+    min-width: 100px;
+    padding: 0 12px;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 16px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding: 16px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.date-row {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.date-time-field {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  min-width: 300px;
+}
+
+.date-time-field .mat-form-field:first-child {
+  flex: 1;
+  min-width: 180px;
+}
+
+.date-time-field .time-field {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.teams-container {
+  width: 100%;
+  padding: 0 16px;
+  margin-top: 16px;
+}
+
+.teams-container h3 {
+  text-align: left;
+  margin-bottom: 16px;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+mat-list {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+}
+
+mat-list-item {
+  margin: 8px 0;
+}
+
+.status-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4caf50;
+}
+
+.export-container {
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+button mat-icon {
+  margin-right: 0.5rem;
+}
+
+/* Custom styles for Material tabs */
+::ng-deep .mat-mdc-tab-group {
+  width: 100%;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+::ng-deep .mat-mdc-tab-header {
+  background-color: #ffffff;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+::ng-deep .mat-mdc-tab {
+  min-width: 120px;
+  padding: 0 24px;
+  opacity: 1 !important;
+}
+
+::ng-deep .mat-mdc-tab-label-container {
+  padding: 0 16px;
+}
+
+::ng-deep .mdc-tab {
+  height: 48px !important;
+}
+
+::ng-deep .mdc-tab--active {
+  background-color: #f8f9fa;
+}
+
+::ng-deep .mdc-tab-indicator__content--underline {
+  border-color: #007bff !important;
+  border-width: 3px !important;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #007bff;
+}
+
+::ng-deep .mat-mdc-tab-body-wrapper {
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 0 0 8px 8px;
+}
+
+::ng-deep .mat-mdc-tab:hover {
+  background-color: #f1f3f5;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active:hover {
+  background-color: #f8f9fa;
+}
+
+::ng-deep .mat-mdc-list {
+  width: 100%;
+  padding: 0 !important;
+}
+
+::ng-deep .mat-mdc-list-item {
+  width: 100% !important;
+  height: auto !important;
+  margin-bottom: 8px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .date-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .date-time-field {
+    width: 100%;
+    min-width: unset;
+  }
+
+  ::ng-deep .mat-mdc-tab {
+    min-width: 100px;
+    padding: 0 16px;
+  }
+
+  ::ng-deep .mat-mdc-tab-body-wrapper {
+    padding: 16px;
+  }
+
+  .form-container,
+  .teams-container,
+  .export-container {
+    padding: 8px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  ::ng-deep .mat-mdc-tab {
+    min-width: 80px;
+    padding: 0 8px;
+  }
+
+  ::ng-deep .mat-mdc-tab-label-container {
+    padding: 0 8px;
+  }
+
+  ::ng-deep .mat-mdc-tab-body-wrapper {
+    padding: 12px;
+  }
+
+  .form-container,
+  .teams-container,
+  .export-container {
+    padding: 4px;
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.schedule-table {
+  margin: 24px 0;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.mat-mdc-table {
+  width: 100%;
+  margin-bottom: 24px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mat-mdc-header-cell {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mat-mdc-cell, .mat-mdc-header-cell {
+  padding: 12px 16px;
+}
+
+button[mat-raised-button] {
+  min-width: 120px;
+  margin-top: 8px;
+}
+
+/* Place the button in its own row spanning both columns */
+.form-container button {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: 8px;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  color: white;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.app-header .subtitle {
+  margin: 8px 0 0;
+  font-size: 16px;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 32px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.table-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  color: #1976d2;
+}
+
+.schedule-table h3 {
+  color: #424242;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 24px 0 16px;
+  padding-left: 8px;
+  border-left: 4px solid #1976d2;
+}
+
+.datetime-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.datetime-cell .date {
+  font-weight: 500;
+  color: #424242;
+}
+
+.datetime-cell .time {
+  font-size: 13px;
+  color: #666;
+}
+
+.mat-mdc-cell, .mat-mdc-header-cell {
+  padding: 12px 16px;
+}
+
+.mat-mdc-header-cell {
+  font-weight: 500;
+  color: #1976d2;
+  font-size: 14px;
+}
+
+.mat-mdc-cell {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mat-mdc-row:hover {
+  background-color: #f5f5f5;
+}
+
+.themed-table {
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+/* Header styling */
+.themed-table .mat-mdc-header-row {
+  background-color: #f5f7fa;
+  border-bottom: 2px solid #e0e4e8;
+}
+
+.themed-table .mat-mdc-header-cell {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 16px;
+  white-space: nowrap;
+  border-bottom: none;
+}
+
+/* Row styling */
+.themed-table .mat-mdc-row {
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.themed-table .mat-mdc-row:hover {
+  background-color: #f8fafc;
+}
+
+.themed-table .mat-mdc-row:last-child {
+  border-bottom: none;
+}
+
+/* Cell styling */
+.themed-table .mat-mdc-cell {
+  padding: 16px;
+  font-size: 14px;
+  color: #4a5568;
+  border-bottom: none;
+}
+
+/* Datetime cell specific styling */
+.themed-table .datetime-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.themed-table .datetime-cell .date {
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.themed-table .datetime-cell .time {
+  color: #718096;
+  font-size: 13px;
+}
+
+/* User cell styling */
+.themed-table .mat-column-user {
+  font-weight: 500;
+  color: #2c5282;
+}
+
+/* Table wrapper styling */
+.schedule-table {
+  margin: 24px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .app-header {
+    padding: 24px 16px;
+  }
+
+  .app-header h1 {
+    font-size: 28px;
+  }
+
+  .app-header .subtitle {
+    font-size: 14px;
+  }
+
+  .table-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .container {
+    padding: 12px;
+  }
+
+  .date-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .date-row .date-time-field {
+    width: 100%;
+    min-width: unset;
+    flex-wrap: nowrap;
+  }
+
+  .date-row .date-time-field {
+    min-width: unset;
+  }
+
+  .date-time-field .time-field {
+    width: 120px;
+  }
+
+  .date-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .date-time-field {
+    width: 100%;
+    min-width: unset;
+  }
+
+  ::ng-deep .mat-mdc-tab {
+    min-width: 100px;
+    padding: 0 16px;
+  }
+
+  ::ng-deep .mat-mdc-tab-body-wrapper {
+    padding: 16px;
+  }
+
+  .form-container,
+  .teams-container,
+  .export-container {
+    padding: 8px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  ::ng-deep .mat-mdc-tab {
+    min-width: 80px;
+    padding: 0 8px;
+  }
+
+  ::ng-deep .mat-mdc-tab-label-container {
+    padding: 0 8px;
+  }
+
+  ::ng-deep .mat-mdc-tab-body-wrapper {
+    padding: 12px;
+  }
+
+  .form-container,
+  .teams-container,
+  .export-container {
+    padding: 4px;
+  }
+}

@@ -1,5 +1,4 @@
-
-export interface Schedule {
+export interface PagerDutySchedule {
     description:           string;
     escalation_policies:   EscalationPolicy[];
     final_schedule:        FinalSchedule;
@@ -62,4 +61,12 @@ export interface ScheduleLayer {
 
 export interface User {
     user: EscalationPolicy;
+}
+
+export interface ScheduleResponse {
+  schedule: {
+    final_schedule: {
+      rendered_schedule_entries: RenderedScheduleEntry[];
+    };
+  };
 }

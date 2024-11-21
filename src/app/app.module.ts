@@ -13,10 +13,17 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { TeamScheduleExportComponent } from './team-schedule-export/team-schedule-export.component';
+import { FullScheduleExportComponent } from './full-schedule-export/full-schedule-export.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TeamScheduleExportComponent,
+    FullScheduleExportComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +37,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatNativeDateModule,
     MatTableModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTabsModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]

@@ -1,0 +1,395 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 16px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  margin: 24px 0;
+  box-sizing: border-box;
+}
+
+.form-container .mat-form-field {
+  width: 100%;
+}
+
+/* Date row styles */
+.date-row {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.date-row .date-time-field {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  min-width: 300px;
+}
+
+/* Date-time field styles */
+.date-time-field .mat-form-field:first-child {
+  flex: 1;
+  min-width: 180px;
+}
+
+.date-time-field .time-field {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+/* Make input fields more compact */
+:host ::ng-deep .mat-mdc-form-field {
+  width: 100%;
+}
+
+/* Adjust the height of the form fields */
+:host ::ng-deep .mat-mdc-text-field-wrapper {
+  height: 56px !important;
+}
+
+/* Fix input field padding and alignment */
+:host ::ng-deep .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex {
+  height: 56px;
+  align-items: center !important;
+}
+
+/* Adjust input text alignment */
+:host ::ng-deep .mat-mdc-input-element {
+  padding: 0 !important;
+  margin-top: 0 !important;
+  line-height: normal !important;
+}
+
+/* Make the input text slightly smaller */
+:host ::ng-deep .mat-mdc-form-field-input-control {
+  font-size: 14px;
+}
+
+/* Specific font size for time input */
+:host ::ng-deep input[type="time"] {
+  font-size: 12px !important;
+  min-width: 100px;
+  padding-right: 8px !important;
+}
+
+/* Adjust label size and position */
+:host ::ng-deep .mat-mdc-form-field-label {
+  font-size: 14px;
+}
+
+/* Fix datepicker icon alignment */
+:host ::ng-deep .mat-mdc-form-field-icon-suffix {
+  align-self: center;
+  padding-bottom: 0 !important;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.schedule-table {
+  margin: 24px 0;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.mat-mdc-table {
+  width: 100%;
+  margin-bottom: 24px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mat-mdc-header-cell {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mat-mdc-cell, .mat-mdc-header-cell {
+  padding: 12px 16px;
+}
+
+button[mat-raised-button] {
+  min-width: 120px;
+  margin-top: 8px;
+}
+
+/* Place the button in its own row spanning both columns */
+.form-container button {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: 8px;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  color: white;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.app-header .subtitle {
+  margin: 8px 0 0;
+  font-size: 16px;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 32px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.table-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  color: #1976d2;
+}
+
+.schedule-table h3 {
+  color: #424242;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 24px 0 16px;
+  padding-left: 8px;
+  border-left: 4px solid #1976d2;
+}
+
+.datetime-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.datetime-cell .date {
+  font-weight: 500;
+  color: #424242;
+}
+
+.datetime-cell .time {
+  font-size: 13px;
+  color: #666;
+}
+
+.mat-mdc-cell, .mat-mdc-header-cell {
+  padding: 12px 16px;
+}
+
+.mat-mdc-header-cell {
+  font-weight: 500;
+  color: #1976d2;
+  font-size: 14px;
+}
+
+.mat-mdc-cell {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mat-mdc-row:hover {
+  background-color: #f5f5f5;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .app-header {
+    padding: 24px 16px;
+  }
+
+  .app-header h1 {
+    font-size: 28px;
+  }
+
+  .app-header .subtitle {
+    font-size: 14px;
+  }
+
+  .table-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .container {
+    padding: 12px;
+  }
+
+  .date-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .date-row .date-time-field {
+    width: 100%;
+    min-width: unset;
+    flex-wrap: nowrap;
+  }
+
+  .date-row .date-time-field {
+    min-width: unset;
+  }
+
+  .date-time-field .time-field {
+    width: 120px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 8px;
+  }
+}
+
+.themed-table {
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+/* Header styling */
+.themed-table .mat-mdc-header-row {
+  background-color: #f5f7fa;
+  border-bottom: 2px solid #e0e4e8;
+}
+
+.themed-table .mat-mdc-header-cell {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 16px;
+  white-space: nowrap;
+  border-bottom: none;
+}
+
+/* Row styling */
+.themed-table .mat-mdc-row {
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.themed-table .mat-mdc-row:hover {
+  background-color: #f8fafc;
+}
+
+.themed-table .mat-mdc-row:last-child {
+  border-bottom: none;
+}
+
+/* Cell styling */
+.themed-table .mat-mdc-cell {
+  padding: 16px;
+  font-size: 14px;
+  color: #4a5568;
+  border-bottom: none;
+}
+
+/* Datetime cell specific styling */
+.themed-table .datetime-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.themed-table .datetime-cell .date {
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.themed-table .datetime-cell .time {
+  color: #718096;
+  font-size: 13px;
+}
+
+/* User cell styling */
+.themed-table .mat-column-user {
+  font-weight: 500;
+  color: #2c5282;
+}
+
+/* Table wrapper styling */
+.schedule-table {
+  margin: 24px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .themed-table .mat-mdc-header-cell,
+  .themed-table .mat-mdc-cell {
+    padding: 12px;
+  }
+
+  .themed-table .datetime-cell .date {
+    font-size: 13px;
+  }
+
+  .themed-table .datetime-cell .time {
+    font-size: 12px;
+  }
+}
