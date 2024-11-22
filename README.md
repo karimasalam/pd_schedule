@@ -54,6 +54,49 @@ The generated Excel file provides two views:
 1. Detailed daily breakdown of schedules
 2. Monthly summary of payments by person
 
+## Development Setup
+
+### Prerequisites
+- Node.js (v18 or higher)
+- npm (comes with Node.js)
+- Angular CLI (v19.0.0)
+
+### Installation
+1. Clone the repository
+2. Install dependencies:
+```bash
+npm install
+```
+3. Start the development server:
+```bash
+npm start
+```
+4. Navigate to `http://localhost:4200` in your browser
+
+### Build
+To build the project for production:
+```bash
+npm run build
+```
+The build artifacts will be stored in the `dist/` directory.
+
+### Technology Stack
+- Angular 19
+- Angular Material UI
+- RxJS for reactive programming
+- XLSX library for Excel export functionality
+
+### Project Structure
+```
+pd-schedule-app/
+├── src/                    # Source files
+│   ├── app/               # Application components
+│   ├── environments/      # Environment configurations
+│   └── assets/           # Static assets
+├── public/               # Public assets
+└── package.json          # Project dependencies and scripts
+```
+
 ## Development
 
 This project was generated with Angular CLI. To run the development server:
