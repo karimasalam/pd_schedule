@@ -7,7 +7,6 @@ import { FullScheduleExportComponent } from './full-schedule-export/full-schedul
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    standalone: true,
     imports: [MatTabGroup, MatTab, TeamScheduleExportComponent, FullScheduleExportComponent]
 })
 export class AppComponent {

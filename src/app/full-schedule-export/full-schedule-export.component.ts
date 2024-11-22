@@ -20,7 +20,6 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     selector: 'app-full-schedule-export',
     templateUrl: './full-schedule-export.component.html',
     styleUrls: ['./full-schedule-export.component.css'],
-    standalone: true,
     imports: [FormsModule, MatFormField, MatLabel, MatInput, MatError, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatButton, NgIf, MatList, NgFor, MatListItem, MatListItemTitle, MatListItemLine, MatIcon, MatProgressSpinner, DatePipe]
 })
 export class FullScheduleExportComponent implements OnInit {

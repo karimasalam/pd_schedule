@@ -35,7 +35,6 @@ interface ScheduleResponse {
     selector: 'app-team-schedule-export',
     templateUrl: './team-schedule-export.component.html',
     styleUrls: ['./team-schedule-export.component.css'],
-    standalone: true,
     imports: [FormsModule, MatFormField, MatLabel, MatInput, MatError, MatAutocompleteTrigger, MatAutocomplete, NgIf, MatOption, MatProgressSpinner, NgFor, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatButton, MatIcon, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DatePipe]
 })
 export class TeamScheduleExportComponent {
