@@ -6,11 +6,22 @@ import { ScheduleService } from '../schedule.service';
 import { forkJoin } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { TeamScheduleConfig } from '../interfaces/team-schedule-config';
+import { FormsModule } from '@angular/forms';
+import { MatFormField, MatLabel, MatError, MatSuffix } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
+import { MatButton } from '@angular/material/button';
+import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { MatList, MatListItem, MatListItemTitle, MatListItemLine } from '@angular/material/list';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
-  selector: 'app-full-schedule-export',
-  templateUrl: './full-schedule-export.component.html',
-  styleUrls: ['./full-schedule-export.component.css']
+    selector: 'app-full-schedule-export',
+    templateUrl: './full-schedule-export.component.html',
+    styleUrls: ['./full-schedule-export.component.css'],
+    standalone: true,
+    imports: [FormsModule, MatFormField, MatLabel, MatInput, MatError, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatButton, NgIf, MatList, NgFor, MatListItem, MatListItemTitle, MatListItemLine, MatIcon, MatProgressSpinner, DatePipe]
 })
 export class FullScheduleExportComponent implements OnInit {
   token: string = '';
