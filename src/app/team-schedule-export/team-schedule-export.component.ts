@@ -5,6 +5,17 @@ import { processDailyAssignments, generateSummaryData, createSummarySheets, crea
 import { ScheduleService } from '../schedule.service';
 import { forkJoin, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { MatFormField, MatLabel, MatError, MatSuffix } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
+import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { MatOption } from '@angular/material/core';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 
 interface Schedule {
   id: string;
@@ -21,9 +32,10 @@ interface ScheduleResponse {
 }
 
 @Component({
-  selector: 'app-team-schedule-export',
-  templateUrl: './team-schedule-export.component.html',
-  styleUrls: ['./team-schedule-export.component.css']
+    selector: 'app-team-schedule-export',
+    templateUrl: './team-schedule-export.component.html',
+    styleUrls: ['./team-schedule-export.component.css'],
+    imports: [FormsModule, MatFormField, MatLabel, MatInput, MatError, MatAutocompleteTrigger, MatAutocomplete, NgIf, MatOption, MatProgressSpinner, NgFor, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatButton, MatIcon, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DatePipe]
 })
 export class TeamScheduleExportComponent {
   token: string = '';
