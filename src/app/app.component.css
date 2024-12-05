@@ -68,6 +68,67 @@
   font-weight: 300;
 }
 
+/* Enhanced tab styles */
+::ng-deep .mat-mdc-tab-group {
+  background-color: #f8f9fa;
+}
+
+::ng-deep .mat-mdc-tab-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+}
+
+::ng-deep .mat-mdc-tab {
+  transition: all 0.2s ease-in-out;
+  opacity: 0.8;
+  position: relative;
+  height: 48px;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active {
+  opacity: 1;
+  background-color: #e8f0fe;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 1;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #1976d2;
+  box-shadow: 0 1px 3px rgba(25, 118, 210, 0.3);
+}
+
+::ng-deep .mat-mdc-tab:hover:not(.mdc-tab--active) {
+  background-color: #f1f3f5;
+  opacity: 0.9;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-transform: none;
+  transition: all 0.2s ease;
+  color: #5f6368;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #1976d2;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+::ng-deep .mat-mdc-tab-label-content {
+  padding: 0 24px;
+}
+
 /* Responsive styles */
 @media screen and (max-width: 768px) {
   .app-header {

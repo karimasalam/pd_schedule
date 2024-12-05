@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { ScheduleResponse } from '../interfaces/pagerduty-schedule';
-import { processDailyAssignments, generateSummaryData, createSummarySheets } from '../utilities';
+import { processDailyAssignments, generateSummaryData, createSummarySheets, createExcelWorkbook } from '../utilities';
 import { ScheduleService } from '../schedule.service';
 import { forkJoin } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -98,7 +98,7 @@ export class FullScheduleExportComponent implements OnInit {
       const summaryData = generateSummaryData(detailedData);
 
       // Create summary sheets
-      const summarySheets = createSummarySheets(summaryData);
+      const summarySheets = createSummarySheets(summaryData, team.name);
 
       // Add summary sheet after detailed
       Object.entries(summarySheets).forEach(([sheetName, data]) => {

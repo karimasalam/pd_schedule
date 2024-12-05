@@ -139,75 +139,104 @@ export function generateSummaryData(detailedData: DailyAssignment[]) {
   };
 }
 
-export function createSummarySheets(summaryData: ReturnType<typeof generateSummaryData>) {
+export function createSummarySheets(summaryData: ReturnType<typeof generateSummaryData>, teamName?: string): { 
+  [key: string]: (string | number | { t: 's'; f: string; })[][];
+} {
   const { primarySummaryData, secondarySummaryData, sortedMonths, primaryNames, secondaryNames } = summaryData;
 
   // Create combined summary sheet
-  const combinedSummarySheet: (string | number)[][] = [];
+  const combinedSummarySheet: (string | number | { t: 's', f: string })[][] = [];
 
   // Create primary summary table
   combinedSummarySheet.push(['Primary Support', ...sortedMonths, 'Total']);
 
-  const primaryMonthTotals = new Array(sortedMonths.length).fill(0);
-  let primaryGrandTotal = 0;
+  let startRow = 2; // Excel rows are 1-based, and we start after header
+  const primaryStartRow = startRow;
 
-  primaryNames.forEach(name => {
-    const row: (string | number)[] = [name];
-    let rowTotal = 0;
+  primaryNames.forEach((name, nameIndex) => {
+    const row: (string | { t: 's', f: string })[] = [name];
     
-    sortedMonths.forEach((month, index) => {
-      const value = primarySummaryData.get(name)?.get(month) || 0;
-      row.push(value);
-      rowTotal += value;
-      primaryMonthTotals[index] += value;
+    sortedMonths.forEach((month, monthIndex) => {
+      // Create formula to sum values from detailed sheet for this person and month
+      const sheetName = teamName ? `'${teamName} - Detailed'` : 'Detailed';
+      const formula = `SUMIFS(${sheetName}!E:E,${sheetName}!C:C,"${name}",${sheetName}!G:G,"${month}")`;
+      row.push({ t: 's', f: formula });
     });
     
-    row.push(rowTotal);
-    primaryGrandTotal += rowTotal;
+    // Add row total formula
+    const startCol = XLSX.utils.encode_col(1); // B column
+    const endCol = XLSX.utils.encode_col(sortedMonths.length); // Column based on number of months
+    row.push({ t: 's', f: `SUM(${startCol}${startRow}:${endCol}${startRow})` });
+    
     combinedSummarySheet.push(row);
+    startRow++;
   });
 
-  combinedSummarySheet.push(['Total', ...primaryMonthTotals, primaryGrandTotal]);
+  // Add primary totals row with formulas
+  const primaryTotalsRow: (string | { t: 's', f: string })[] = ['Total'];
+  for (let col = 1; col <= sortedMonths.length; col++) {
+    const colLetter = XLSX.utils.encode_col(col);
+    primaryTotalsRow.push({ t: 's', f: `SUM(${colLetter}${primaryStartRow}:${colLetter}${startRow-1})` });
+  }
+  // Add grand total formula
+  const startCol = XLSX.utils.encode_col(1);
+  const endCol = XLSX.utils.encode_col(sortedMonths.length);
+  primaryTotalsRow.push({ t: 's', f: `SUM(${startCol}${startRow}:${endCol}${startRow})` });
+  combinedSummarySheet.push(primaryTotalsRow);
 
   // Add spacing between tables
   combinedSummarySheet.push([]);
   combinedSummarySheet.push([]);
+  startRow += 3; // Account for total row and two empty rows
 
-  // Create secondary summary table
+  // Create secondary summary table with same formula pattern
   combinedSummarySheet.push(['Secondary Support', ...sortedMonths, 'Total']);
+  const secondaryStartRow = startRow + 1;
 
-  const secondaryMonthTotals = new Array(sortedMonths.length).fill(0);
-  let secondaryGrandTotal = 0;
-
-  secondaryNames.forEach(name => {
-    const row: (string | number)[] = [name];
-    let rowTotal = 0;
+  secondaryNames.forEach((name, nameIndex) => {
+    const row: (string | { t: 's', f: string })[] = [name];
     
-    sortedMonths.forEach((month, index) => {
-      const value = secondarySummaryData.get(name)?.get(month) || 0;
-      row.push(value);
-      rowTotal += value;
-      secondaryMonthTotals[index] += value;
+    sortedMonths.forEach((month, monthIndex) => {
+      const sheetName = teamName ? `'${teamName} - Detailed'` : 'Detailed';
+      const formula = `SUMIFS(${sheetName}!F:F,${sheetName}!D:D,"${name}",${sheetName}!G:G,"${month}")`;
+      row.push({ t: 's', f: formula });
     });
     
-    row.push(rowTotal);
-    secondaryGrandTotal += rowTotal;
+    // Add row total formula
+    const startCol = XLSX.utils.encode_col(1);
+    const endCol = XLSX.utils.encode_col(sortedMonths.length);
+    row.push({ t: 's', f: `SUM(${startCol}${startRow+1}:${endCol}${startRow+1})` });
+    
     combinedSummarySheet.push(row);
+    startRow++;
   });
 
-  combinedSummarySheet.push(['Total', ...secondaryMonthTotals, secondaryGrandTotal]);
+  // Add secondary totals row with formulas
+  const secondaryTotalsRow: (string | { t: 's', f: string })[] = ['Total'];
+  for (let col = 1; col <= sortedMonths.length; col++) {
+    const colLetter = XLSX.utils.encode_col(col);
+    secondaryTotalsRow.push({ t: 's', f: `SUM(${colLetter}${secondaryStartRow}:${colLetter}${startRow})` });
+  }
+  // Add grand total formula
+  secondaryTotalsRow.push({ t: 's', f: `SUM(${startCol}${startRow+1}:${endCol}${startRow+1})` });
+  combinedSummarySheet.push(secondaryTotalsRow);
 
   return {
     'Summary': combinedSummarySheet
   };
 }
 
-export function createExcelWorkbook(detailedData: DailyAssignment[], summaryData: { [key: string]: (string | number)[][] }) {
+export function createExcelWorkbook(
+  detailedData: DailyAssignment[], 
+  summaryData: { [key: string]: (string | number | { t: 's', f: string })[][] },
+  teamName?: string
+) {
   const wb: XLSX.WorkBook = XLSX.utils.book_new();
   
   // Add detailed sheet
   const detailedWs: XLSX.WorkSheet = XLSX.utils.json_to_sheet(detailedData);
-  XLSX.utils.book_append_sheet(wb, detailedWs, 'Detailed');
+  const sheetName = teamName ? `${teamName} - Detailed` : 'Detailed';
+  XLSX.utils.book_append_sheet(wb, detailedWs, sheetName);
 
   // Add summary sheets
   Object.keys(summaryData).forEach(sheetName => {
