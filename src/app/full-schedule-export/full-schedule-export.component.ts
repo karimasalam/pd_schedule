@@ -11,7 +11,7 @@ import { MatFormField, MatLabel, MatError, MatSuffix } from '@angular/material/f
 import { MatInput } from '@angular/material/input';
 import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
 import { MatButton } from '@angular/material/button';
-import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { NgIf, NgFor, DatePipe, formatDate } from '@angular/common';
 import { MatList, MatListItem, MatListItemTitle, MatListItemLine } from '@angular/material/list';
 import { MatIcon } from '@angular/material/icon';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
@@ -31,9 +31,15 @@ export class FullScheduleExportComponent implements OnInit {
   dataloaded: boolean = false;
 
   constructor(private scheduleService: ScheduleService) {
-    // Set default times to 10:00 AM
-    this.fromDate = new Date(2024, 6, 1, 10, 0); // July 1st, 2024 at 10:00 AM
-    this.toDate = new Date(2024, 6, 30, 10, 0);  // July 30th, 2024 at 10:00 AM
+    // Get last month's start and end dates
+    const now = new Date();
+    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
+    
+    // Set dates with 10:00 AM time
+    this.fromDate = new Date(lastMonth.getFullYear(), lastMonth.getMonth(), lastMonth.getDate(), 10, 0);
+    this.toDate = new Date(lastMonthEnd.getFullYear(), lastMonthEnd.getMonth(), lastMonthEnd.getDate(), 10, 0);
+    
     this.initializeTeamSchedules();
   }
 
@@ -122,7 +128,7 @@ export class FullScheduleExportComponent implements OnInit {
     });
 
     // Save the workbook
-    const fileName = `Team_Schedules_${this.fromDate.toISOString().split('T')[0]}_${this.toDate.toISOString().split('T')[0]}.xlsx`;
+    const fileName = `Team_Schedules_${formatDate(this.fromDate, "yyyyMMdd", "en-AU")}_${formatDate(this.toDate, "yyyyMMdd", "en-AU")}.xlsx`;
     XLSX.writeFile(workbook, fileName);
   }
 

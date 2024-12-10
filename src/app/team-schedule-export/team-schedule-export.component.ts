@@ -32,10 +32,10 @@ interface ScheduleResponse {
 }
 
 @Component({
-    selector: 'app-team-schedule-export',
-    templateUrl: './team-schedule-export.component.html',
-    styleUrls: ['./team-schedule-export.component.css'],
-    imports: [FormsModule, MatFormField, MatLabel, MatInput, MatError, MatAutocompleteTrigger, MatAutocomplete, NgIf, MatOption, MatProgressSpinner, NgFor, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatButton, MatIcon, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DatePipe]
+  selector: 'app-team-schedule-export',
+  templateUrl: './team-schedule-export.component.html',
+  styleUrls: ['./team-schedule-export.component.css'],
+  imports: [FormsModule, MatFormField, MatLabel, MatInput, MatError, MatAutocompleteTrigger, MatAutocomplete, NgIf, MatOption, MatProgressSpinner, NgFor, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatButton, MatIcon, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DatePipe]
 })
 export class TeamScheduleExportComponent {
   token: string = '';
@@ -53,9 +53,14 @@ export class TeamScheduleExportComponent {
   private searchSubject = new Subject<string>();
 
   constructor(private scheduleService: ScheduleService) {
-    // Set default dates to July 1st and July 30th at 10:00 AM
-    this.fromDate = new Date(2024, 6, 1, 10, 0); // July 1st, 2024 at 10:00 AM
-    this.toDate = new Date(2024, 6, 30, 10, 0);  // July 30th, 2024 at 10:00 AM
+    // Get last month's start and end dates
+    const now = new Date();
+    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
+    
+    // Set dates with 10:00 AM time
+    this.fromDate = new Date(lastMonth.getFullYear(), lastMonth.getMonth(), lastMonth.getDate(), 10, 0);
+    this.toDate = new Date(lastMonthEnd.getFullYear(), lastMonthEnd.getMonth(), lastMonthEnd.getDate(), 10, 0);
 
     // Setup search with debounce
     this.searchSubject.pipe(
