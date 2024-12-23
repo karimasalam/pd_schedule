@@ -227,15 +227,14 @@ export function createSummarySheets(summaryData: ReturnType<typeof generateSumma
   startRow += 3;
 
   // Create total payments per resource table
-  combinedSummarySheet.push(['Total Payments Per Resource', 'Amount']);
-  const totalPaymentsStartRow = startRow + 1;
+  combinedSummarySheet.push([...Array(5).fill(''), 'Total Payments Per Resource', 'Amount']);  const totalPaymentsStartRow = startRow + 1;
 
   // Get unique list of all resources
   const allNames = new Set([...primaryNames, ...secondaryNames]);
   const sortedNames = Array.from(allNames).sort();
 
   sortedNames.forEach((name) => {
-    const row: (string | { t: 's', f: string })[] = [name];
+    const row: (string | { t: 's', f: string })[] = [...Array(5).fill(''), name];
     
     // Create formula to sum both primary and secondary payments
     const sheetName = teamName ? `'${teamName} - Detailed'` : 'Detailed';
@@ -247,8 +246,8 @@ export function createSummarySheets(summaryData: ReturnType<typeof generateSumma
   });
 
   // Add total row
-  const totalRow: (string | { t: 's', f: string })[] = ['Total'];
-  const colLetter = XLSX.utils.encode_col(1);
+  const totalRow: (string | { t: 's', f: string })[] = [...Array(5).fill(''), 'Total'];
+  const colLetter = XLSX.utils.encode_col(6);
   totalRow.push({ t: 's', f: `SUM(${colLetter}${totalPaymentsStartRow + 1}:${colLetter}${startRow + 1})` });
   combinedSummarySheet.push(totalRow);
 
