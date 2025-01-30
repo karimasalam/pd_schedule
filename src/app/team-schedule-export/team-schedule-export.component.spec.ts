@@ -8,9 +8,8 @@ describe('TeamScheduleExportComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [TeamScheduleExportComponent]
-})
-    .compileComponents();
+      imports: [TeamScheduleExportComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TeamScheduleExportComponent);
     component = fixture.componentInstance;

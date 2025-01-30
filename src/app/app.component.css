@@ -4,7 +4,7 @@
   height: 100%;
   box-sizing: border-box;
   overflow: hidden;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 .container {
@@ -29,8 +29,13 @@
 }
 
 /* Typography styles */
-::ng-deep h1, ::ng-deep h2, ::ng-deep h3, ::ng-deep h4, ::ng-deep h5, ::ng-deep h6 {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+::ng-deep h1,
+::ng-deep h2,
+::ng-deep h3,
+::ng-deep h4,
+::ng-deep h5,
+::ng-deep h6 {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
   margin: 0;
   font-weight: 500;
 }
@@ -41,7 +46,7 @@
 }
 
 ::ng-deep .mat-mdc-form-field {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 .app-header {
@@ -88,7 +93,9 @@
 ::ng-deep .mat-mdc-tab.mdc-tab--active {
   opacity: 1;
   background-color: #e8f0fe;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   z-index: 1;
 }
 

@@ -1,6 +1,5 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-
 import { provideHttpClient } from '@angular/common/http';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -21,10 +20,24 @@ import { AppComponent } from './app/app.component';
 import { importProvidersFrom } from '@angular/core';
 
 bootstrapApplication(AppComponent, {
-    providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule, FormsModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule, MatTableModule, MatProgressSpinnerModule, MatAutocompleteModule, MatTabsModule, MatIconModule, MatListModule),
-        provideHttpClient(),
-        provideAnimations()
-    ]
-})
-  .catch(err => console.error(err));
+  providers: [
+    importProvidersFrom(
+      BrowserModule,
+      AppRoutingModule,
+      FormsModule,
+      MatInputModule,
+      MatFormFieldModule,
+      MatButtonModule,
+      MatDatepickerModule,
+      MatNativeDateModule,
+      MatTableModule,
+      MatProgressSpinnerModule,
+      MatAutocompleteModule,
+      MatTabsModule,
+      MatIconModule,
+      MatListModule,
+    ),
+    provideHttpClient(),
+    provideAnimations(),
+  ],
+}).catch((err) => console.error(err));

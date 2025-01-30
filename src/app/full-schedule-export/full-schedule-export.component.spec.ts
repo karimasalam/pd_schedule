@@ -8,9 +8,8 @@ describe('FullScheduleExportComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [FullScheduleExportComponent]
-})
-    .compileComponents();
+      imports: [FullScheduleExportComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FullScheduleExportComponent);
     component = fixture.componentInstance;

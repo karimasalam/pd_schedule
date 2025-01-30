@@ -4,15 +4,19 @@ import { Observable } from 'rxjs';
 import { ScheduleResponse } from './interfaces/pagerduty-schedule';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScheduleService {
+  private apiUrl = 'https://api.pagerduty.com/schedules/';
 
-  private apiUrl = 'https://api.pagerduty.com/schedules/'; 
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  getSchedule(token: string, fromDate: string, toDate: string, id: string): Observable<ScheduleResponse> {
+  getSchedule(
+    token: string,
+    fromDate: string,
+    toDate: string,
+    id: string,
+  ): Observable<ScheduleResponse> {
     const headers = new HttpHeaders()
       .set('Authorization', `Token token=${token}`)
       .set('Content-Type', 'application/json')
@@ -20,9 +24,9 @@ export class ScheduleService {
 
     const params = {
       since: fromDate,
-      until: toDate      
+      until: toDate,
     };
-    
+
     return this.http.get<ScheduleResponse>(this.apiUrl + id, { headers, params });
   }
 
@@ -34,9 +38,9 @@ export class ScheduleService {
 
     const params = {
       query: query,
-      limit: limit
+      limit: limit,
     };
-    
+
     return this.http.get(this.apiUrl, { headers, params });
   }
 }

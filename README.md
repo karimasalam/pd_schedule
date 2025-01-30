@@ -15,7 +15,9 @@ A professional development schedule management application built with Angular th
 The application provides a comprehensive Excel export functionality that generates a workbook with two worksheets:
 
 ### 1. Detailed Worksheet
+
 Contains day-by-day schedule information including:
+
 - Date
 - Name
 - Week number
@@ -23,7 +25,9 @@ Contains day-by-day schedule information including:
 - Month
 
 ### 2. Summary Worksheet
+
 Provides a financial overview with:
+
 - Names listed vertically
 - Months listed horizontally
 - Payment totals for each person per month
@@ -43,50 +47,65 @@ Provides a financial overview with:
 ## Data Structure
 
 ### Schedule Entry
+
 Each schedule entry contains:
+
 - Start date/time
 - End date/time
 - User information
 - Payment information (default: 35.71 per day)
 
 ### Excel Output
+
 The generated Excel file provides two views:
+
 1. Detailed daily breakdown of schedules
 2. Monthly summary of payments by person
 
 ## Development Setup
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - npm (comes with Node.js)
 - Angular CLI (v19.0.0)
 
 ### Installation
+
 1. Clone the repository
 2. Install dependencies:
+
 ```bash
 npm install
 ```
+
 3. Start the development server:
+
 ```bash
 npm start
 ```
+
 4. Navigate to `http://localhost:4200` in your browser
 
 ### Build
+
 To build the project for production:
+
 ```bash
 npm run build
 ```
+
 The build artifacts will be stored in the `dist/` directory.
 
 ### Technology Stack
+
 - Angular 19
 - Angular Material UI
 - RxJS for reactive programming
 - XLSX library for Excel export functionality
 
 ### Project Structure
+
 ```
 pd-schedule-app/
 ├── src/                    # Source files

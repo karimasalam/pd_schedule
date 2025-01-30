@@ -5,11 +5,8 @@ import { AppComponent } from './app.component';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [
-        RouterModule.forRoot([]),
-        AppComponent
-    ],
-}).compileComponents();
+      imports: [RouterModule.forRoot([]), AppComponent],
+    }).compileComponents();
   });
 
   it('should create the app', () => {
@@ -17,8 +14,6 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-
-
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);

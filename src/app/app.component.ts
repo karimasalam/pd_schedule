@@ -4,10 +4,10 @@ import { TeamScheduleExportComponent } from './team-schedule-export/team-schedul
 import { FullScheduleExportComponent } from './full-schedule-export/full-schedule-export.component';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    imports: [MatTabGroup, MatTab, TeamScheduleExportComponent, FullScheduleExportComponent]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+  imports: [MatTabGroup, MatTab, TeamScheduleExportComponent, FullScheduleExportComponent],
 })
 export class AppComponent {
   title = 'pd_schedule';

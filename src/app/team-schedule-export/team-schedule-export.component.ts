@@ -1,7 +1,12 @@
 import { Component, Input } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { RenderedScheduleEntry } from '../interfaces/pagerduty-schedule';
-import { processDailyAssignments, generateSummaryData, createSummarySheets, createExcelWorkbook } from '../utilities';
+import {
+  processDailyAssignments,
+  generateSummaryData,
+  createSummarySheets,
+  createExcelWorkbook,
+} from '../utilities';
 import { ScheduleService } from '../schedule.service';
 import { forkJoin, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -12,10 +17,25 @@ import { MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autoc
 import { NgIf, NgFor, DatePipe } from '@angular/common';
 import { MatOption } from '@angular/material/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
+import {
+  MatDatepickerInput,
+  MatDatepickerToggle,
+  MatDatepicker,
+} from '@angular/material/datepicker';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import {
+  MatTable,
+  MatColumnDef,
+  MatHeaderCellDef,
+  MatHeaderCell,
+  MatCellDef,
+  MatCell,
+  MatHeaderRowDef,
+  MatHeaderRow,
+  MatRowDef,
+  MatRow,
+} from '@angular/material/table';
 
 interface Schedule {
   id: string;
@@ -35,7 +55,36 @@ interface ScheduleResponse {
   selector: 'app-team-schedule-export',
   templateUrl: './team-schedule-export.component.html',
   styleUrls: ['./team-schedule-export.component.css'],
-  imports: [FormsModule, MatFormField, MatLabel, MatInput, MatError, MatAutocompleteTrigger, MatAutocomplete, NgIf, MatOption, MatProgressSpinner, NgFor, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatButton, MatIcon, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DatePipe]
+  imports: [
+    FormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    MatAutocompleteTrigger,
+    MatAutocomplete,
+    NgIf,
+    MatOption,
+    MatProgressSpinner,
+    NgFor,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatSuffix,
+    MatDatepicker,
+    MatButton,
+    MatIcon,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    DatePipe,
+  ],
 })
 export class TeamScheduleExportComponent {
   token: string = '';
@@ -57,30 +106,44 @@ export class TeamScheduleExportComponent {
     const now = new Date();
     const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
     const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
-    
+
     // Set dates with 10:00 AM time
-    this.fromDate = new Date(lastMonth.getFullYear(), lastMonth.getMonth(), lastMonth.getDate(), 10, 0);
-    this.toDate = new Date(lastMonthEnd.getFullYear(), lastMonthEnd.getMonth(), lastMonthEnd.getDate(), 10, 0);
+    this.fromDate = new Date(
+      lastMonth.getFullYear(),
+      lastMonth.getMonth(),
+      lastMonth.getDate(),
+      10,
+      0,
+    );
+    this.toDate = new Date(
+      lastMonthEnd.getFullYear(),
+      lastMonthEnd.getMonth(),
+      lastMonthEnd.getDate(),
+      10,
+      0,
+    );
 
     // Setup search with debounce
-    this.searchSubject.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(query => {
-        this.isLoading = true;
-        return this.scheduleService.listschedules(this.token, query, 100);
-      })
-    ).subscribe({
-      next: (response: { schedules: Schedule[] }) => {
-        this.scheduleList = response.schedules;
-        this.filteredSchedules = this.scheduleList;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error loading schedules:', error);
-        this.isLoading = false;
-      }
-    });
+    this.searchSubject
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((query) => {
+          this.isLoading = true;
+          return this.scheduleService.listschedules(this.token, query, 100);
+        }),
+      )
+      .subscribe({
+        next: (response: { schedules: Schedule[] }) => {
+          this.scheduleList = response.schedules;
+          this.filteredSchedules = this.scheduleList;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading schedules:', error);
+          this.isLoading = false;
+        },
+      });
   }
 
   getSchedules(): void {
@@ -90,13 +153,23 @@ export class TeamScheduleExportComponent {
     }
 
     this.isLoading = true;
-    
+
     // Convert dates to ISO string format for the API
     const fromDateString = this.fromDate.toISOString();
     const toDateString = this.toDate.toISOString();
-    
-    const primaryRequest = this.scheduleService.getSchedule(this.token, fromDateString, toDateString, this.primaryId);
-    const secondaryRequest = this.scheduleService.getSchedule(this.token, fromDateString, toDateString, this.secondaryId);
+
+    const primaryRequest = this.scheduleService.getSchedule(
+      this.token,
+      fromDateString,
+      toDateString,
+      this.primaryId,
+    );
+    const secondaryRequest = this.scheduleService.getSchedule(
+      this.token,
+      fromDateString,
+      toDateString,
+      this.secondaryId,
+    );
 
     forkJoin([primaryRequest, secondaryRequest]).subscribe({
       next: ([primaryData, secondaryData]: [ScheduleResponse, ScheduleResponse]) => {
@@ -107,7 +180,7 @@ export class TeamScheduleExportComponent {
       error: (err: Error) => {
         console.error('Error fetching schedules', err);
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -125,9 +198,9 @@ export class TeamScheduleExportComponent {
 
   displayFn = (scheduleId: string | null): string => {
     if (!scheduleId) return '';
-    const schedule = this.scheduleList.find(s => s.id === scheduleId);
+    const schedule = this.scheduleList.find((s) => s.id === scheduleId);
     return schedule ? `${schedule.name} (${schedule.id})` : scheduleId;
-  }
+  };
 
   updateFromTime(timeString: string): void {
     if (this.fromDate) {
@@ -137,7 +210,7 @@ export class TeamScheduleExportComponent {
         this.fromDate.getMonth(),
         this.fromDate.getDate(),
         hours,
-        minutes
+        minutes,
       );
     }
   }
@@ -150,7 +223,7 @@ export class TeamScheduleExportComponent {
         this.toDate.getMonth(),
         this.toDate.getDate(),
         hours,
-        minutes
+        minutes,
       );
     }
   }
@@ -163,7 +236,7 @@ export class TeamScheduleExportComponent {
         newDate.getMonth(),
         newDate.getDate(),
         10, // Force 10:00 AM
-        0
+        0,
       );
     }
   }
@@ -176,7 +249,7 @@ export class TeamScheduleExportComponent {
         newDate.getMonth(),
         newDate.getDate(),
         10, // Force 10:00 AM
-        0
+        0,
       );
     }
   }
@@ -188,7 +261,7 @@ export class TeamScheduleExportComponent {
         this.primarySchedules,
         this.secondarySchedules,
         this.primaryPayment,
-        this.secondaryPayment
+        this.secondaryPayment,
       );
 
       // Convert map to array for detailed sheet

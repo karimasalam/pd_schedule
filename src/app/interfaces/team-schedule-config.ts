@@ -1,4 +1,4 @@
-import { RenderedScheduleEntry } from "./pagerduty-schedule";
+import { RenderedScheduleEntry } from './pagerduty-schedule';
 
 export interface TeamScheduleConfig {
   name: string;
